@@ -1,0 +1,61 @@
+{
+  "applications": ["econsumerApi"],
+  "changelogDate": "20230413075503",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "ecs_plan_detai",
+  "fields": [
+    {
+      "fieldName": "planTime",
+      "fieldType": "String",
+      "javadoc": "计划每日开始时间-结束时间 多个竖杠|分隔\\n例如：10:00-11:00|11:00-12:00|23:00-24:00"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "javadoc": "创建者"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "javadoc": "创建日期"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "javadoc": "修改者"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant",
+      "javadoc": "修改日期"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "消费计划明细\\n场景1：消费者消费资源的计划明细\\n@author skyline",
+  "jpaMetamodelFiltering": false,
+  "name": "PlanDetai",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "consumer",
+      "otherEntityRelationshipName": "planDetai",
+      "relationshipName": "consumer",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "planHeader",
+      "otherEntityRelationshipName": "planDetai",
+      "relationshipName": "planHeader",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "resourceMetadata",
+      "otherEntityRelationshipName": "planDetai",
+      "relationshipName": "resourceMetadata",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

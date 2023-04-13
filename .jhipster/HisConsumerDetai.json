@@ -1,0 +1,123 @@
+{
+  "applications": ["econsumerApi"],
+  "changelogDate": "20230413075703",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "ecs_his_consumer_detai",
+  "fields": [
+    {
+      "fieldName": "resourceId",
+      "fieldType": "String",
+      "javadoc": "资源id"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255",
+      "javadoc": "主题"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255",
+      "javadoc": "内容信息"
+    },
+    {
+      "fieldName": "resourceType",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "100",
+      "javadoc": "资源类型"
+    },
+    {
+      "fieldName": "dataType",
+      "fieldType": "ResourceMetadataType",
+      "fieldTypeJavadoc": "资源类型\\n\\n图片、视频、视屏流(flv, rtsp)、HTTP URL、PDF、底部滚动条\\n@author skyline",
+      "fieldValues": "IMAGE,VEDIO,VEDIO_STREAM,URL_HTTP,PDF,TXT_ROLL",
+      "javadoc": "元数据类型"
+    },
+    {
+      "fieldName": "showTime",
+      "fieldType": "Integer",
+      "javadoc": "单页展示时间"
+    },
+    {
+      "fieldName": "dataPath",
+      "fieldType": "String",
+      "javadoc": "地址\\n多个使用竖杠|符合分隔"
+    },
+    {
+      "fieldName": "coverPicPath",
+      "fieldType": "String",
+      "javadoc": "封面图片（非图片类型需要）"
+    },
+    {
+      "fieldName": "dataSize",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "20",
+      "javadoc": "文件大小"
+    },
+    {
+      "fieldName": "dataMd",
+      "fieldType": "String",
+      "javadoc": "文件md5值"
+    },
+    {
+      "fieldName": "dataSuffix",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "20",
+      "javadoc": "文件后缀名"
+    },
+    {
+      "fieldName": "remark",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000",
+      "javadoc": "备注"
+    },
+    {
+      "fieldName": "planTime",
+      "fieldType": "String",
+      "javadoc": "计划每日开始时间-结束时间 多个竖杠|分隔\\n例如：10:00-11:00|11:00-12:00|23:00-24:00"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "javadoc": "创建者"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "javadoc": "创建日期"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "javadoc": "修改者"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant",
+      "javadoc": "修改日期"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "消费历史明细\\n场景1：计划生效后 记录生效的计划信息到历史表\\n@author skyline",
+  "jpaMetamodelFiltering": false,
+  "name": "HisConsumerDetai",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "hisConsumerHeader",
+      "otherEntityRelationshipName": "hisConsumerDetai",
+      "relationshipName": "hisConsumerHeader",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
