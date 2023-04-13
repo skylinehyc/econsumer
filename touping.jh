@@ -1,0 +1,423 @@
+application {
+        config {
+            languages [zh, en]
+            nativeLanguage zh
+            jhiPrefix ec
+            baseName econsumerApi
+            packageName com.mega.econsumer
+            applicationType monolith
+            authenticationType jwt
+            buildTool maven
+            databaseType sql
+            devDatabaseType mysql
+            prodDatabaseType mysql
+            cacheProvider no
+            enableTranslation false
+            entitySuffix false
+            skipClient true
+            skipUserManagement false
+            serverPort 8090
+        }
+        entities *
+}
+
+/**
+ * 消费者业务id类型
+ * 
+ * MAC
+ * @author skyline
+ */
+enum ConsumerBusinessType {
+    MAC
+}
+
+
+/**
+ * 
+ * 资源的消费者
+ * 场景1：使用终端
+ * @author skyline
+ */
+entity Consumer(ecs_consumer) {
+    /**
+     * 消费者业务id
+	 * 
+     */
+    businessId String maxlength(255) required unique,
+    /**
+     * 业务id类型：MAC
+     */
+    businessType ConsumerBusinessType,
+    /**
+     * 工厂id
+     */
+    facId String,
+    /**
+     * 区域id
+     */
+    areaId String,
+    /**
+     * 备注
+     */
+    remake String maxlength(1000),
+	
+	
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     * 创建日期
+     */
+    createdDate Instant,
+    /**
+     * 修改者
+     */
+    lastModifiedBy String,
+    /**
+     * 修改日期
+     */
+    lastModifiedDate Instant
+}
+
+
+/**
+ * 资源类型
+ * 
+ * 图片、视频、视屏流(flv, rtsp)、HTTP URL、PDF、底部滚动条
+ * @author skyline
+ */
+enum ResourceMetadataType{
+    IMAGE, VEDIO, VEDIO_STREAM, URL_HTTP, PDF, TXT_ROLL
+}
+
+
+/**
+ * 资源库(存储图片、视频的元数据信息)
+ * @author skyline
+ */
+entity ResourceMetadata(ecs_resource_metadata) {
+    /**
+     * 主题
+     */
+	name String maxlength(255) required unique,
+     /**
+     * 内容信息
+     */
+	content String maxlength(255),
+     /**
+     * 资源类型
+     */
+	resourceType String maxlength(100),
+    /**
+     * 元数据类型
+     */
+    dataType ResourceMetadataType,
+    /**
+     * 单页展示时间
+     */
+    showTime Integer,
+    /**
+     * 展示开始时间
+     */
+    startTime Instant,
+     /**
+     * 展示结束时间
+     */
+    endTime Instant,
+    /**
+     * 地址 
+	 * 多个使用竖杠|符合分隔
+     */
+    dataPath String,
+    /**
+     * 封面图片（非图片类型需要）
+     */
+    coverPicPath String,
+	
+    /**
+     * 文件大小
+     */
+    dataSize String maxlength(20),
+    /**
+     * 文件md5值
+     */
+    dataMd String,
+    /**
+     * 文件后缀名
+     */
+    dataSuffix String maxlength(20),
+    /**
+     * 备注
+     */
+    remark String maxlength(1000),
+	
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     *创建日期
+     */
+    createdDate Instant,
+    /**
+     *修改者
+     */
+    lastModifiedBy String,
+    /**
+     *修改日期
+     */
+    lastModifiedDate Instant
+}
+
+/**
+ * 计划状态
+ * 
+ * 启用、关闭
+ * @author skyline
+ */
+enum PlanState{
+    OPEN, CLOSE
+}
+
+
+/**
+ * 消费计划头
+ * 场景1：投屏计划
+ * @author skyline
+ */
+entity PlanHeader(ecs_plan_header) {
+	
+    /**
+     * 计划编码
+     */
+    planCode String maxlength(255) required unique,
+    /**
+     * 计划名称
+     */
+	planName String maxlength(255),
+    /**
+     * 计划状态
+     */
+	planState PlanState,
+    /**
+     * 计划开始时间
+	 * YYYY-MM-DD 00:00:00
+     */
+	planStartTime Instant required,
+     /**
+     * 计划结束时间
+	 * YYYY-MM-DD 23:59:59
+     */
+	planEndTime Instant required,
+    /**
+     * 备注
+     */
+    remark String maxlength(1000),
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     * 创建日期
+     */
+    createdDate Instant,
+    /**
+     * 修改者
+     */
+    lastModifiedBy String,
+    /**
+     * 修改日期
+     */
+    lastModifiedDate Instant
+}
+
+
+/**
+ * 消费计划明细
+ * 场景1：消费者消费资源的计划明细
+ * @author skyline
+ */
+entity PlanDetai(ecs_plan_detai) {
+    /**
+     * 计划每日开始时间-结束时间 多个竖杠|分隔
+	 * 例如：10:00-11:00|11:00-12:00|23:00-24:00
+     */
+    planTime String,
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     *创建日期
+     */
+    createdDate Instant,
+    /**
+     *修改者
+     */
+    lastModifiedBy String,
+    /**
+     *修改日期
+     */
+    lastModifiedDate Instant
+}
+
+/**
+ * 消费历史头表
+ * 场景1：消费计划生效后 记录生效的计划信息到历史表
+ * 历史表进行冗余设计 将消费者和计划的对象属性都设置进来
+ * 这样消费者和计划被删除也没关系
+ * @author skyline
+ */
+entity HisConsumerHeader(ecs_his_consumer_header) {
+    /**
+     * 消费者业务id
+	 * 
+     */
+    businessId String maxlength(255) required,
+    /**
+     * 业务id类型：MAC
+     */
+    businessType ConsumerBusinessType,
+    /**
+     * 工厂id
+     */
+    facId String,
+    /**
+     * 区域id
+     */
+    areaId String,
+    /**
+     * 计划编码
+     */
+    planCode String maxlength(255),
+    /**
+     * 计划名称
+     */
+	planName String maxlength(255),
+    /**
+     * 计划开始时间
+	 * YYYY-MM-DD 00:00:00
+     */
+	planStartTime Instant required,
+     /**
+     * 计划结束时间
+	 * YYYY-MM-DD 23:59:59
+     */
+	planEndTime Instant required,
+	
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     * 创建日期
+     */
+    createdDate Instant,
+    /**
+     * 修改者
+     */
+    lastModifiedBy String,
+    /**
+     * 修改日期
+     */
+    lastModifiedDate Instant
+}
+
+/**
+ * 消费历史明细
+ * 场景1：计划生效后 记录生效的计划信息到历史表
+ * @author skyline
+ */
+entity HisConsumerDetai(ecs_his_consumer_detai) {
+    /**
+     * 资源id
+     */
+	resourceId String,
+    /**
+     * 主题
+     */
+	name String maxlength(255),
+     /**
+     * 内容信息
+     */
+	content String maxlength(255),
+     /**
+     * 资源类型
+     */
+	resourceType String maxlength(100),
+    /**
+     * 元数据类型
+     */
+    dataType ResourceMetadataType,
+    /**
+     * 单页展示时间
+     */
+    showTime Integer,
+    /**
+     * 地址 
+	 * 多个使用竖杠|符合分隔
+     */
+    dataPath String,
+    /**
+     * 封面图片（非图片类型需要）
+     */
+    coverPicPath String,
+	
+    /**
+     * 文件大小
+     */
+    dataSize String maxlength(20),
+    /**
+     * 文件md5值
+     */
+    dataMd String,
+    /**
+     * 文件后缀名
+     */
+    dataSuffix String maxlength(20),
+    /**
+     * 备注
+     */
+    remark String maxlength(1000),
+	
+    /**
+     * 计划每日开始时间-结束时间 多个竖杠|分隔
+	 * 例如：10:00-11:00|11:00-12:00|23:00-24:00
+     */
+    planTime String,
+    /**
+     * 创建者
+     */
+    createdBy String,
+    /**
+     * 创建日期
+     */
+    createdDate Instant,
+    /**
+     * 修改者
+     */
+    lastModifiedBy String,
+    /**
+     * 修改日期
+     */
+    lastModifiedDate Instant
+}
+
+
+
+
+
+relationship OneToMany {
+
+  Consumer{planDetai} to PlanDetai{consumer},
+  
+  PlanHeader{planDetai} to PlanDetai{planHeader},
+  
+  ResourceMetadata{planDetai} to PlanDetai{resourceMetadata},
+  
+  Consumer{resourceMetadata} to ResourceMetadata{consumer},
+  
+  HisConsumerHeader{hisConsumerDetai} to HisConsumerDetai{hisConsumerHeader},
+
+}

@@ -1,0 +1,81 @@
+{
+  "applications": ["econsumerApi"],
+  "changelogDate": "20230413075203",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "ecs_consumer",
+  "fields": [
+    {
+      "fieldName": "businessId",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required", "unique"],
+      "fieldValidateRulesMaxlength": "255",
+      "javadoc": "消费者业务id\\n"
+    },
+    {
+      "fieldName": "businessType",
+      "fieldType": "ConsumerBusinessType",
+      "fieldTypeJavadoc": "消费者业务id类型\\n\\nMAC\\n@author skyline",
+      "fieldValues": "MAC",
+      "javadoc": "业务id类型：MAC"
+    },
+    {
+      "fieldName": "facId",
+      "fieldType": "String",
+      "javadoc": "工厂id"
+    },
+    {
+      "fieldName": "areaId",
+      "fieldType": "String",
+      "javadoc": "区域id"
+    },
+    {
+      "fieldName": "remake",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000",
+      "javadoc": "备注"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "javadoc": "创建者"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "javadoc": "创建日期"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "javadoc": "修改者"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant",
+      "javadoc": "修改日期"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "资源的消费者\\n场景1：使用终端\\n@author skyline",
+  "jpaMetamodelFiltering": false,
+  "name": "Consumer",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "planDetai",
+      "otherEntityRelationshipName": "consumer",
+      "relationshipName": "planDetai",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "resourceMetadata",
+      "otherEntityRelationshipName": "consumer",
+      "relationshipName": "resourceMetadata",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
